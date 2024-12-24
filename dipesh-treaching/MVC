@@ -1,8 +1,14 @@
 Model View Controller
 
-
 Database Structure:
 
 View:
 
 Controller:
+
+verification code:
+
+mail provider [ third party ]
+
+
+student -<>  1 thesis 
