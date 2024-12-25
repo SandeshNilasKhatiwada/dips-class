@@ -10,5 +10,20 @@ verification code:
 
 mail provider [ third party ]
 
+student -<> 1 thesis
 
-student -<>  1 thesis 
+(middleware) (controller)
+pale next() -------> || movie -------> hall
+
+facebook login,
+photo upload,
+yimro id {}
+
+token => information
+
+    detail nikal => {
+        check with database
+            photo {
+                upload
+            }
+    }

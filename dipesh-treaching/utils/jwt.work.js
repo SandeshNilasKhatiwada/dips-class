@@ -28,8 +28,6 @@ exports.verifyJWT = (token) => {
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
     return decoded;
   } catch (err) {
-    // If the token is invalid or expired, an error will be thrown
-    console.error('JWT verification failed:', err.message);
-    return null;
+    throw ('error occured:', err.message);
   }
 };
