@@ -7,6 +7,6 @@ exports.authChecker = (req, res, next) => {
     req.user = verifyJWT(token);
     next();
   } catch (error) {
-    res.status(403).json({ status: false, message: 'user foebidden' });
+    res.status(403).json({ status: false, message: 'user forbidden' });
   }
 };
