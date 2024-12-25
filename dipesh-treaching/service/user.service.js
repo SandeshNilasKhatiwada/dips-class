@@ -1,4 +1,5 @@
 const User = require('../model/User');
+const bcrypt = require('bcrypt');
 
 exports.create = async (userData) => {
   try {
@@ -35,15 +36,30 @@ exports.login = async (email, password) => {
     if (user.is_blocked) {
       throw new Error('Error: cannot login user is blocked');
     }
+    if (!user.is_verified) {
+      throw new Error('Error: User is not varified ');
+    }
 
     // Step 3: Compare the provided password with the stored password (plaintext)
-    if (user.password === password && user.is_blocked == false) {
+    if (
+      bcrypt.compareSync(password, user.password) &&
+      user.is_blocked == false
+    ) {
       return user;
     } else {
       throw new Error('Error: Invalid password');
     }
   } catch (error) {
     // Handle error (email not found, password incorrect, etc.)
+    return { success: false, message: error.message };
+  }
+};
+
+exports.pendingUser = async () => {
+  try {
+    const user = await User.findAll({ where: { is_verified: false } });
+    return user;
+  } catch (error) {
     return { success: false, message: error.message };
   }
 };
