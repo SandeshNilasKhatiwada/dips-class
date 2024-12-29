@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const { create, update, pendingUser } = require('../service/user.service');
+const { addUserToClass } = require('../service/user-class.service');
 
 exports.createUser = async (req, res) => {
   try {
@@ -11,6 +12,9 @@ exports.createUser = async (req, res) => {
       body.is_verified = false;
     }
     const user = await create(body);
+    const classData = await addUserToClass(user, req.body.classId);
+    console.log(classData);
+
     res.status(201).json({ status: true, message: 'User Created', data: user });
   } catch (error) {
     res.status(400).json({ status: false, message: error });

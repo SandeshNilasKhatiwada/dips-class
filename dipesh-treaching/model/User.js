@@ -1,6 +1,8 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db.config');
+const sequelize = require('../config/db.config'); // Import sequelize instance
+const Class = require('./Class'); // Import Class model
 
+// Define the User model
 const User = sequelize.define(
   'User',
   {
@@ -23,12 +25,10 @@ const User = sequelize.define(
       allowNull: false,
       unique: true,
     },
-
     password: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-
     is_blocked: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
@@ -44,6 +44,17 @@ const User = sequelize.define(
   },
 );
 
-module.exports = User;
+// Many-to-Many relationship between User (student) and Class
+User.belongsToMany(Class, {
+  through: 'UserClass', // This is the join table
+  foreignKey: 'user_id',
+  otherKey: 'class_id',
+});
 
-// ORM
+Class.belongsToMany(User, {
+  through: 'UserClass',
+  foreignKey: 'class_id',
+  otherKey: 'user_id',
+});
+
+module.exports = User;

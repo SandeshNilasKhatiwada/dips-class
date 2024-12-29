@@ -11,8 +11,8 @@ const { role_checker } = require('../middlewares/role.checker.middleware');
 
 router.post('/create', createUser);
 
-router.put('/:id', authChecker, role_checker(['admin']), updateUser);
+router.put('/:id', updateUser);
 
-router.get('/pending', authChecker, role_checker(['admin']), getPendingUsers);
+router.get('/pending', getPendingUsers);
 
 module.exports = router;

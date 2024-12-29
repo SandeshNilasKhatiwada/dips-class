@@ -1,6 +1,6 @@
 const sequelize = require('../config/db.config');
-const User = require('../model/User');
-
+const User = require('../model/User'); // Import User model
+const Class = require('../model/Class');
 (async () => {
   try {
     await sequelize.authenticate();
@@ -15,5 +15,3 @@ const User = require('../model/User');
     await sequelize.close();
   }
 })();
-
-// kiss => keep it simple and stupid
