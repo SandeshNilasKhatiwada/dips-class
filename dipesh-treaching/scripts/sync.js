@@ -1,6 +1,7 @@
 const sequelize = require('../config/db.config');
-const User = require('../model/User'); // Import User model
-const Class = require('../model/Class');
+const User = require('../models/User'); // Import User model
+const Class = require('../models/Class');
+const Task = require('../models/Task');
 (async () => {
   try {
     await sequelize.authenticate();

@@ -1,4 +1,4 @@
-const Class = require('../model/Class');
+const Class = require('../models/Class');
 
 exports.addUserToClass = async (user, classId) => {
   try {

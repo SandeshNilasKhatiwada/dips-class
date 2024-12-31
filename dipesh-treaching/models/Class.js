@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize');
+const Task = require('./Task');
 const sequelize = require('../config/db.config'); // Import sequelize instance
 
 // Define the Class model
@@ -28,5 +29,7 @@ const Class = sequelize.define(
     timestamps: true,
   },
 );
-
-module.exports = Class;
+Class.hasMany(Task, {
+  foreignKey: 'class_id',
+}),
+  (module.exports = Class);

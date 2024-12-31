@@ -75,3 +75,10 @@ www.dipesh.com/src/uploads/thesis1.pdf
 
 frontend ->
 backend ->
+
+seperation of concern
+
+npx sequelize-cli migration:generate --name create-class
+npx sequelize-cli migration:generate --name create-user
+npx sequelize-cli migration:generate --name create-task
+npx sequelize-cli migration:generate --name create-userclass
