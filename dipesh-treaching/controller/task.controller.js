@@ -2,6 +2,7 @@ const { create, update } = require('../service/task.service');
 
 exports.createTask = async (req, res) => {
   try {
+    req.body.files = process.env.BASE_URL + req.file.path;
     const newTask = await create(req.body);
     res.status(201).json({
       status: true,

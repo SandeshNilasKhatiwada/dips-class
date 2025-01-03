@@ -1,31 +1,35 @@
-const { create } = require('../service/submission.service');
-const Task = require('../models/Task');
-const User = require('../models/User');
+const { create, update } = require('../service/submission.service');
 
 exports.createSubmission = async (req, res) => {
   try {
     const { body } = req;
-    const taskData = await Task.findByPk(body.task_id);
-    const userData = await User.findByPk(body.user_id);
 
-    if (userData.class_id == taskData.class_id) {
-      const createSubmission = await create(body);
-      res
-        .status(201)
-        .json({
-          status: true,
-          message: 'Created submission successfully ',
-          data: createSubmission,
-        });
-    } else {
-      res.status(403).json({
-        status: false,
-        message: 'Error while creating the data Unauthorized Submission',
-      });
-    }
+    const createSubmission = await create(body);
+    res.status(201).json({
+      status: true,
+      message: 'Created submission successfully ',
+      data: createSubmission,
+    });
   } catch (error) {
     res
       .status(400)
       .json({ status: false, message: 'Error while creating the data' });
+  }
+};
+
+exports.updateSubmission = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const submissionData = req.body;
+    const updated = await update(submissionData, id);
+    res.status(201).json({
+      status: true,
+      message: 'Updated submission successfully ',
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(400)
+      .json({ status: false, message: 'Error while updating the data' });
   }
 };
