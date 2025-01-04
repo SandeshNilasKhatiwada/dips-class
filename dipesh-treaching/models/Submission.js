@@ -39,6 +39,10 @@ const Submission = sequelize.define(
       },
       allowNull: false,
     },
+    files: {
+      type: DataTypes.STRING, // Can store file paths or URLs
+      allowNull: true, // If you want the field to be optional
+    },
   },
   {
     timestamps: true, // To include createdAt and updatedAt fields

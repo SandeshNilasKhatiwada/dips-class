@@ -79,3 +79,15 @@ exports.update = async (submissionData, submissionId) => {
     throw Error('Error while Updating submission', error);
   }
 };
+
+exports.getById = async (submissionId) => {
+  try {
+    const foundSubmission = await Submission.findByPk(submissionId);
+    if (foundSubmission) {
+      return foundSubmission;
+    }
+    throw Error('No Submission found');
+  } catch (error) {
+    throw new Error('Error creating task: ' + error.message);
+  }
+};

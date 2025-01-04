@@ -16,10 +16,23 @@ const storage = multer.diskStorage({
   },
 });
 
+const fileFilter = (req, file, cb) => {
+  const filetypes = /pdf/;
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = filetypes.test(file.mimetype);
+
+  if (mimetype && extname) {
+    return cb(null, true);
+  } else {
+    cb('Error: Only PDF files are allowed!');
+  }
+};
+
 // Define multer upload instance
 const upload = multer({
   storage: storage,
   limits: { fileSize: 10 * 1024 * 1024 }, // Max file size of 10MB
+  fileFilter: fileFilter,
 }).single('file'); // Accept single file upload with field name 'file'
 
 module.exports = upload;
