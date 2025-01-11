@@ -1,5 +1,10 @@
 const { unlink } = require('fs-extra');
-const { create, update, getById } = require('../service/task.service');
+const {
+  create,
+  update,
+  getById,
+  getAllTAsk,
+} = require('../service/task.service');
 const { deleteFile } = require('../config/deletefile');
 
 exports.createTask = async (req, res) => {
@@ -23,14 +28,16 @@ exports.updateTask = async (req, res) => {
     const found_task = await getById(id);
 
     if (req.file) {
-      req.body.file = process.env.BASE_URL + req.file.path;
-      const fileName = found_task.files.replace(
-        'http://localhost:4000/api/uploads/',
-        '',
-      );
-      deleteFile(fileName);
+      req.body.files = process.env.BASE_URL + req.file.path;
+      if (found_task.files != null) {
+        const fileName = found_task.files.replace(
+          'http://localhost:4000/api/uploads/',
+          '',
+        );
+        deleteFile(fileName);
+      }
     }
-    const updatedTask = await update(id, req.body);
+    await update(id, req.body);
 
     res.status(200).json({
       status: true,
@@ -39,5 +46,37 @@ exports.updateTask = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(400).json({ status: false, message: 'cannot create task' });
+  }
+};
+
+exports.getAllTasks = async (req, res) => {
+  try {
+    const allTask = await getAllTAsk();
+    res.status(200).json({
+      status: true,
+      message: 'Fetched task successfully',
+      data: allTask,
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(400)
+      .json({ status: false, message: 'cannot fetch task', error: error });
+  }
+};
+exports.getByTaskId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const allTask = await getById(id);
+    res.status(200).json({
+      status: true,
+      message: 'Fetched task successfully',
+      data: allTask,
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(400)
+      .json({ status: false, message: 'cannot fetch task', error: error });
   }
 };

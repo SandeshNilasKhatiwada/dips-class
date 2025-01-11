@@ -26,3 +26,24 @@ exports.update = async (classId, classData) => {
     throw Error('Error while creating class', error);
   }
 };
+
+exports.getById = async (taskId) => {
+  try {
+    const foundClass = await Class.findByPk(taskId);
+    if (foundClass) {
+      return foundClass;
+    }
+    throw Error('No classfound');
+  } catch (error) {
+    throw new Error('Error creating task: ' + error.message);
+  }
+};
+
+exports.getAllClass = async () => {
+  try {
+    const allClass = await Class.findAll();
+    return allClass;
+  } catch (error) {
+    throw new Error('Error creating task: ' + error.message);
+  }
+};

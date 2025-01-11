@@ -1,4 +1,5 @@
 const Class = require('../models/Class');
+const User = require('../models/User');
 
 exports.addUserToClass = async (user, classId) => {
   try {
@@ -12,6 +13,16 @@ exports.addUserToClass = async (user, classId) => {
     // Add the class to the user (creates the entry in the UserClass join table)
     const addedClass = await user.addClass(classInstance);
     return addedClass;
+  } catch (error) {
+    console.error('Error adding user to class:', error);
+    throw error;
+  }
+};
+
+exports.updateUserToClass = async (userId) => {
+  try {
+    const user = await User.findByPk(userId);
+    console.log(user);
   } catch (error) {
     console.error('Error adding user to class:', error);
     throw error;

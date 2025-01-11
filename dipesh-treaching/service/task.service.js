@@ -31,3 +31,12 @@ exports.getById = async (taskId) => {
     throw new Error('Error creating task: ' + error.message);
   }
 };
+
+exports.getAllTAsk = async () => {
+  try {
+    const allTask = await Task.findAll();
+    return allTask;
+  } catch (error) {
+    throw new Error('Error creating task: ' + error.message);
+  }
+};

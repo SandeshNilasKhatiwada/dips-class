@@ -55,11 +55,32 @@ exports.login = async (email, password) => {
   }
 };
 
+exports.getAllUsers = async () => {
+  try {
+    const user = await User.findAll();
+    return user;
+  } catch (error) {
+    throw ('Error occured:', error);
+  }
+};
+
 exports.pendingUser = async () => {
   try {
     const user = await User.findAll({ where: { is_verified: false } });
     return user;
   } catch (error) {
-    return { success: false, message: error.message };
+    throw ('Error occured:', error);
+  }
+};
+
+exports.getUserById = async (id) => {
+  try {
+    const user = await User.findByPk(id);
+    if (user == null) {
+      throw 'User Not Found';
+    }
+    return user;
+  } catch (error) {
+    throw ('Error occured:', error);
   }
 };
