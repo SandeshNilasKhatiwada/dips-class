@@ -1,3 +1,4 @@
+const Class = require('../models/Class');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
@@ -75,12 +76,20 @@ exports.pendingUser = async () => {
 
 exports.getUserById = async (id) => {
   try {
-    const user = await User.findByPk(id);
-    if (user == null) {
+    const user = await User.findByPk(id, {
+      include: {
+        model: Class, // Include the associated Class model
+        through: { attributes: [] }, // Exclude the join table data (optional)
+        attributes: ['id', 'class_name'], // Specify the Class fields you want to include
+      },
+    });
+
+    if (!user) {
       throw 'User Not Found';
     }
+
     return user;
   } catch (error) {
-    throw ('Error occured:', error);
+    throw new Error(`Error occurred: ${error}`);
   }
 };

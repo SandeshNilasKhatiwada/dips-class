@@ -4,6 +4,7 @@ const {
   update,
   getById,
   getAllTAsk,
+  getAllTasksByUser,
 } = require('../service/task.service');
 const { deleteFile } = require('../config/deletefile');
 
@@ -68,6 +69,23 @@ exports.getByTaskId = async (req, res) => {
   try {
     const { id } = req.params;
     const allTask = await getById(id);
+    res.status(200).json({
+      status: true,
+      message: 'Fetched task successfully',
+      data: allTask,
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(400)
+      .json({ status: false, message: 'cannot fetch task', error: error });
+  }
+};
+
+exports.getAllTasksByUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const allTask = await getAllTasksByUser(userId);
     res.status(200).json({
       status: true,
       message: 'Fetched task successfully',

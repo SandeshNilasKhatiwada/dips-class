@@ -5,6 +5,7 @@ const {
   updateTask,
   getAllTasks,
   getByTaskId,
+  getAllTasksByUser,
 } = require('../controller/task.controller');
 const upload = require('../config/multer');
 
@@ -12,6 +13,8 @@ const upload = require('../config/multer');
 
 router.get('/all', getAllTasks);
 router.get('/:id', getByTaskId);
+router.get('/user/:userId', getAllTasksByUser);
+
 router.post('/', upload, createTask);
 router.put('/:id', upload, updateTask);
 

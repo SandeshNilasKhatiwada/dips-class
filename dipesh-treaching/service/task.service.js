@@ -1,4 +1,6 @@
 const Task = require('../models/Task');
+const User = require('../models/User');
+const Class = require('../models/Class');
 
 // Create a new task and assign students to it
 exports.create = async (taskData) => {
@@ -39,4 +41,22 @@ exports.getAllTAsk = async () => {
   } catch (error) {
     throw new Error('Error creating task: ' + error.message);
   }
+};
+
+exports.getAllTasksByUser = async (userId) => {
+  const user = await User.findByPk(userId, {
+    include: {
+      model: Class, // Include Classes the user belongs to
+      include: Task, // Include Tasks associated with those classes
+    },
+  });
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  // Flatten tasks from all classes
+  const tasks = user.Classes.flatMap((classItem) => classItem.Tasks);
+
+  return tasks;
 };

@@ -8,7 +8,7 @@ const {
 } = require('../service/user.service');
 const {
   addUserToClass,
-  updateUserToClass,
+  removeClassFromUser,
 } = require('../service/user-class.service');
 
 exports.createUser = async (req, res) => {
@@ -21,9 +21,7 @@ exports.createUser = async (req, res) => {
       body.is_verified = false;
     }
     const user = await create(body);
-    const classData = await addUserToClass(user, req.body.class_id);
-    console.log(classData);
-
+    await addUserToClass(user, req.body.class_id);
     res.status(201).json({ status: true, message: 'User Created', data: user });
   } catch (error) {
     res.status(400).json({ status: false, message: error });
@@ -76,5 +74,15 @@ exports.getUserById = async (req, res) => {
       .json({ status: true, message: 'Users found', data: userById });
   } catch (error) {
     res.status(400).json({ status: false, message: error });
+  }
+};
+
+exports.removeClass = async (req, res) => {
+  const { userId, classId } = req.params;
+  try {
+    const result = await removeClassFromUser(userId, classId);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 };

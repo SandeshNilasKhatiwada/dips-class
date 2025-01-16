@@ -19,12 +19,24 @@ exports.addUserToClass = async (user, classId) => {
   }
 };
 
-exports.updateUserToClass = async (userId) => {
+exports.removeClassFromUser = async (userId, classId) => {
   try {
+    // Find the user and class
     const user = await User.findByPk(userId);
-    console.log(user);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const cls = await Class.findByPk(classId);
+    if (!cls) {
+      throw new Error('Class not found');
+    }
+
+    // Remove the association
+    await user.removeClass(cls); // Sequelize provides this method
+
+    return { message: 'Class removed from user successfully' };
   } catch (error) {
-    console.error('Error adding user to class:', error);
-    throw error;
+    throw new Error(`Error removing class from user: ${error.message}`);
   }
 };
